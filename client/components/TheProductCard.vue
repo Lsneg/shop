@@ -2,29 +2,25 @@
   <div v-for="product in limitedProductCatalog" :key="product.id">
     <div :class="$style.productCard">
       <div :class="$style.nameArtWrapper">
-        <div :class="$style.productName">
-          наименование товара: {{ product.name }}
-        </div>
-        <div :class="$style.productArt">артикул: {{ product.art }}</div>
+        <div :class="$style.productName">Product name: {{ product.name }}</div>
+        <div :class="$style.productArt">Art: {{ product.art }}</div>
       </div>
       <div :class="$style.brandYearWrapper">
-        <div :class="$style.productBrand">
-          производитель: {{ product.brand_name }}
-        </div>
-        <div :class="$style.productYear">год выпуска: {{ product.year }}</div>
+        <div :class="$style.productBrand">Brand: {{ product.brand_name }}</div>
+        <div :class="$style.productYear">Year of issue: {{ product.year }}</div>
       </div>
       <div>
         <div v-for="(store, key) in product.stocks" :key="store.stockName">
           <div v-if="stockSelected.includes(String(key))">
             <div :class="$style.stock">
-              <div>магазин: {{ store.stockName }}</div>
-              <div>количество: {{ store.productCount }}</div>
+              <div>Stock name: {{ store.stockName }}</div>
+              <div>Quantity: {{ store.productCount }}</div>
             </div>
           </div>
           <div v-else-if="stockSelected.length === 0">
             <div :class="$style.stock">
-              <div>магазин: {{ store.stockName }}</div>
-              <div>количество: {{ store.productCount }}</div>
+              <div>Stock name: {{ store.stockName }}</div>
+              <div>Quantity: {{ store.productCount }}</div>
             </div>
           </div>
         </div>
@@ -33,7 +29,9 @@
         <div v-if="filterCurrencies === 'RUB'">
           {{ (product.price * currenciesRub).toFixed(2) }} ₽
         </div>
-        <div v-if="filterCurrencies === 'EUR'">{{ product.price }} €</div>
+        <div v-if="filterCurrencies === 'EUR'">
+          {{ product.price.toFixed(2) }} €
+        </div>
       </div>
       <button
         @click="addToCart(product)"
@@ -61,25 +59,25 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const filterStore = useFiltersStore();
+    const filterStock = useFiltersStore();
     const currenciesRub = computed(
       () => useCurrenciesStore().currenciesData.RUB
     );
-    const filterCurrencies = computed(() => filterStore.filters.currency);
-    const stockSelected = computed(() => filterStore.filters.selectedStore);
+    const filterCurrencies = computed(() => filterStock.filters.currency);
+    const stockSelected = computed(() => filterStock.filters.selectedStock);
 
     const filteredProducts = computed(() => {
-      return productFilters(props.productCatalog, filterStore.filters);
+      return productFilters(props.productCatalog, filterStock.filters);
     });
 
     const limitedProductCatalog = computed(() => {
-      filterStore.updateFilters({
+      filterStock.updateFilters({
         lengthPage: filteredProducts.value.length,
       });
       return filteredProducts.value.slice(
-        filterStore.filters.currentPagePagination * MAX_ITEMS_PER_PAGE -
+        filterStock.filters.currentPagePagination * MAX_ITEMS_PER_PAGE -
           MAX_ITEMS_PER_PAGE,
-        MAX_ITEMS_PER_PAGE * filterStore.filters.currentPagePagination
+        MAX_ITEMS_PER_PAGE * filterStock.filters.currentPagePagination
       );
     });
 

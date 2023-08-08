@@ -7,12 +7,14 @@ export const productFilters = (
 ) => {
   return productCatalog
     .filter((product) => {
+      /* сортировка по бренду */
       if (filters.selectedBrands.length === 0) {
         return true;
       }
       return filters.selectedBrands.includes(product.brand);
     })
     .filter((product) => {
+      /* сортировка по году */
       const selectedYears = Object.values(filters.selectedYears);
 
       if (selectedYears.length === 0) {
@@ -22,21 +24,23 @@ export const productFilters = (
       return selectedYears.includes(product.year.toString());
     })
     .filter((product) => {
-      if (filters.selectedStore.length === 0) {
+      /* сортировка по магазину */
+      if (filters.selectedStock.length === 0) {
         return true;
       }
 
-      const selectedStoresArray = Object.values(filters.selectedStore);
+      const selectedStockArray = Object.values(filters.selectedStock);
 
-      return selectedStoresArray.some((store) => {
+      return selectedStockArray.some((store) => {
         return product.stocks[store] && product.stocks[store].productCount > 0;
       });
     })
     .sort((a, b) => {
+      /* сортировка по ниименованию */
       if (filters.sortBy === "ASC") {
-        return a.brand_name.localeCompare(b.brand_name);
+        return a.name.localeCompare(b.name);
       } else {
-        return b.brand_name.localeCompare(a.brand_name);
+        return b.name.localeCompare(a.name);
       }
     });
 };

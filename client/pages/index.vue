@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <header>
-      <Logotype />
+      <TheLogotype />
     </header>
 
     <main>
@@ -9,21 +9,21 @@
       <div>
         <div :class="$style.box">
           <div>counter: {{ counterPage }}</div>
-          <div><CurrencySwitcher /></div>
+          <div><TheCurrencySwitcher /></div>
           <div>
-            <SortBy />
+            <TheSortBy />
           </div>
         </div>
-        <ProductCard :productCatalog="catalogStore.catalogData" />
+        <TheProductCard :productCatalog="catalogStore.catalogData" />
       </div>
     </main>
 
     <aside>
-      <TheAside :companies="companies" :years="years" :store="store" />
+      <TheAside :companies="companies" :years="years" :stock="store" />
     </aside>
 
     <footer>
-      <PagePagination />
+      <ThePagePagination />
     </footer>
   </div>
 </template>

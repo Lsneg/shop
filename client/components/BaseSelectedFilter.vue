@@ -6,12 +6,12 @@
 
     <div :class="$style.multiselect">
       <div
-        v-for="company in companies"
-        :key="company.id"
-        :class="selectedCompanies.includes(company.id) ? $style.selected : ''"
-        @click="toggleSelection(company.id)"
+        v-for="item in data"
+        :key="item.id"
+        :class="selectedData.includes(item.id) ? $style.selected : ''"
+        @click="toggleSelection(item.id)"
       >
-        {{ company.name }}
+        {{ item.name }}
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    companies: {
+    data: {
       type: Array as () => Array<{ id: number | string; name: string }>,
       required: true,
     },
@@ -36,31 +36,25 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const selectedCompanies = computed(() => {
+    const selectedData = computed(() => {
       return props.filters;
     });
 
     const toggleSelection = (companyId: number | string) => {
       let updatedFilters;
 
-      // Если компания уже выбрана, удаляем ее из списка
-      if (selectedCompanies.value.includes(companyId)) {
-        updatedFilters = selectedCompanies.value.filter(
-          (id) => id !== companyId
-        );
+      if (selectedData.value.includes(companyId)) {
+        updatedFilters = selectedData.value.filter((id) => id !== companyId);
       } else {
-        // Иначе добавляем компанию в список выбранных
-        updatedFilters = [...selectedCompanies.value, companyId];
+        updatedFilters = [...selectedData.value, companyId];
       }
 
-      // Отправляем обновленный список в родительский компонент
       emit("onSelect", updatedFilters);
     };
 
     return {
-      selectedCompanies,
+      selectedData,
       toggleSelection,
-      // clear,
     };
   },
 });

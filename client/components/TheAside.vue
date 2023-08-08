@@ -2,22 +2,22 @@
   <div>
     <div :class="$style.clear" @click="clear">Clear All</div>
   </div>
-  <SelectedFilter
-    :companies="companies"
+  <BaseSelectedFilter
+    :data="companies"
     :filters="filters.selectedBrands"
-    :title="'Бренды'"
+    :title="'Brands'"
     @onSelect="selectedCompanies"
   />
-  <SelectedFilter
-    :companies="years"
+  <BaseSelectedFilter
+    :data="years"
     :filters="filters.selectedYears"
-    :title="'Год выпуска'"
+    :title="'Years'"
     @onSelect="selectedYears"
   />
-  <SelectedFilter
-    :companies="store"
+  <BaseSelectedFilter
+    :data="stock"
     :title="'Store'"
-    :filters="filters.selectedStore"
+    :filters="filters.selectedStock"
     @onSelect="selectedStock"
   />
 </template>
@@ -36,7 +36,7 @@ export default defineComponent({
       type: Array as () => Array<{ id: string; name: string }>,
       required: true,
     },
-    store: {
+    stock: {
       type: Array as () => Array<{ id: number; name: string }>,
       required: true,
     },
@@ -64,7 +64,7 @@ export default defineComponent({
     const selectedStock = (stock = []) => {
       filterStore.updateFilters({
         currentPagePagination: 1,
-        selectedStore: stock,
+        selectedStock: stock,
       });
     };
 
@@ -73,7 +73,7 @@ export default defineComponent({
         currency: "RUB",
         selectedBrands: [],
         selectedYears: [],
-        selectedStore: [],
+        selectedStock: [],
         sortBy: "ASC",
         currentPagePagination: 1,
         lengthPage: 0,
@@ -98,6 +98,6 @@ export default defineComponent({
   color: #0063b4;
   font-size: 14px;
   left: 200px;
-  top: 141px;
+  top: 123px;
 }
 </style>

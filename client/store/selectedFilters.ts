@@ -5,7 +5,7 @@ export interface IFilters {
   currency: string;
   selectedBrands: number[];
   selectedYears: string[];
-  selectedStore: string[];
+  selectedStock: string[];
   sortBy: "ASC" | "DESC";
   currentPagePagination: number;
   lengthPage: number;
@@ -34,7 +34,7 @@ export const useFiltersStore = defineStore("filtersStore", () => {
     currency: "RUB",
     selectedBrands: [],
     selectedYears: [],
-    selectedStore: [],
+    selectedStock: [],
     sortBy: "ASC",
     currentPagePagination: 1,
     lengthPage: 0,

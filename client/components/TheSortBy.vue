@@ -2,7 +2,6 @@
   <div>
     <div>
       <div>
-        {{ console.log(selected, "selected") }}
         <select name="sort" id="sort" :value="selected" @change="selectedFn">
           <option value="ASC">Title (A to Z)</option>
           <option value="DESC">Title (Z to A)</option>

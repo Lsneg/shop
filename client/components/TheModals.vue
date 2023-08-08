@@ -10,8 +10,11 @@
         <!-- Total Price Section -->
         <div :class="$style.section">
           <span :class="$style.label">Total:</span>
-          <span :class="$style.total">{{
-            products.price * quantity[selected]
+          <span :class="$style.total" v-if="currency === 'EUR'">{{
+            (products.price * quantity[selected]).toFixed(2)
+          }}</span>
+          <span :class="$style.total" v-if="currency === 'RUB'">{{
+            (products.price * quantity[selected] * currenciesRub).toFixed(2)
           }}</span>
         </div>
 
@@ -72,6 +75,7 @@ interface IProduct {
   stocks: Record<string, IStock>;
 }
 
+import { useCurrenciesStore } from "~/store/currencies";
 import { ref, computed, watch } from "vue";
 import { useFiltersStore } from "~/store/selectedFilters";
 
@@ -84,6 +88,12 @@ export default {
     const products = computed<IProduct | null>(() => {
       return useFiltersStore().filters.modal.products;
     });
+
+    const currency = computed<string>(() => useFiltersStore().filters.currency);
+
+    const currenciesRub = computed(
+      () => useCurrenciesStore().currenciesData.RUB
+    );
 
     const quantity = ref<Record<string, number>>({});
     const selected = ref("");
@@ -157,6 +167,8 @@ export default {
       decrementQuantity,
       incrementQuantity,
       buyButton,
+      currency,
+      currenciesRub,
     };
   },
 };
