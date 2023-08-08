@@ -27,11 +27,11 @@ export default defineComponent({
       required: true,
     },
     title: {
-      type: String,
+      type: String as () => string,
       required: true,
     },
     filters: {
-      type: Array,
+      type: Array as () => (number | string)[],
       required: true,
     },
   },

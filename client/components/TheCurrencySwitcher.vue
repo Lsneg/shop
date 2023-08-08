@@ -30,7 +30,6 @@ export default defineComponent({
 
     const filtersStore = useFiltersStore();
 
-    // Suppose you have a getter in your store for this
     const selectedCurrency = ref(filtersStore.filters.currency);
 
     const switchedCurrency = () => {
